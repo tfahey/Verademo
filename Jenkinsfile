@@ -14,6 +14,7 @@ pipeline {
                 cd app
                 mvn package
                 cd ..
+                pwd
             """)  
             }
         }
