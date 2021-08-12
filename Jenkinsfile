@@ -7,15 +7,10 @@ pipeline {
             echo "$GIT_BRANCH"
          }
       }
-      stage('Docker Build') {
+      stage('Package') {
          steps {
-            sh(script: '/usr/local/bin/docker images -a')
-         }
-      }
-      stage('Build') {
-         steps {
-            echo "build"
-            sh 'gradle build'  
+            echo "package"
+            sh 'mvn package'  
             }
         }
    }
