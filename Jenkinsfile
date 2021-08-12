@@ -10,7 +10,11 @@ pipeline {
       stage('Package') {
          steps {
             echo "package"
-            sh 'mvn package'  
+            sh (script: """
+                cd app
+                mvn package
+                cd ..
+            """)  
             }
         }
    }
