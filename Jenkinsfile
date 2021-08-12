@@ -21,7 +21,7 @@ pipeline {
       stage('Veracode Pipeline Scan') {
           steps {
               withCredentials([usernamePassword(credentialsId: 'veracode-credentials', passwordVariable: '$veracode_key', usernameVariable: '$veracode_id')]) {
-                  veracode applicationName: 'Verademo', canFailJob: true, createSandbox: true, criticality: 'Medium', debug: true, waitForScan: true, fileNamePattern: '', replacementPattern: '', sandboxName: 'Jenkins Pipeline', scanExcludesPattern: '', scanIncludesPattern: '', scanName: 'Jenkins 8-12-2021.1', teams: '', uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: "${$veracode_id}", vkey: "${$veracode_key}"
+                  veracode applicationName: 'Verademo', canFailJob: true, createSandbox: true, criticality: 'Medium', debug: true, fileNamePattern: '', replacementPattern: '', sandboxName: 'Jenkins Pipeline', scanExcludesPattern: '', scanIncludesPattern: '', scanName: 'Jenkins 8-12-2021.2', teams: '', timeout: 60, uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: "${$veracode_id}", vkey: "${$veracode_key}", waitForScan: true
               }
           }
       }
