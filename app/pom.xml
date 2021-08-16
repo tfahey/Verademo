@@ -148,6 +148,24 @@
 					<debuglevel>lines,vars,source</debuglevel>
 				</configuration>
 			</plugin>
+			<plugin>
+	            <groupId>com.srcclr</groupId>
+	            <artifactId>srcclr-maven-plugin</artifactId>
+	            <version><!-- Insert latest version --></version>
+	            <configuration>
+	                <!--- Add configuration details here-->
+	                <apiToken>SRCCLR_API_TOKEN</apiToken>
+	        	</configuration>
+	        	<executions>
+	            	<execution>
+	                	<id>srcclr-scan</id>
+	                	<phase>verify</phase>
+	                	<goals>
+	                    	<goal>scan</goal>
+	                	</goals>
+	            	</execution>
+	        	</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
