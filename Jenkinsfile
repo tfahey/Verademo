@@ -16,11 +16,23 @@ pipeline {
             """)  
             }
       }
-      stage('Maven SCA Plugin') {
+      // stage('Maven SCA Plugin') {
+      //    steps {
+      //       echo "srcclr scan"
+      //       sh (script: """
+      //          mvn -f app/pom.xml com.srcclr:srcclr-maven-plugin:scan
+      //          pwd
+      //       """)
+      //    }
+      // }
+      stage('Native SCA script') {
          steps {
             echo "srcclr scan"
             sh (script: """
-               mvn -f app/pom.xml com.srcclr:srcclr-maven-plugin:scan
+               cd app
+               pwd
+               curl -sSL https://download.sourceclear.com/ci.sh | sh
+               cd ..
                pwd
             """)
          }
