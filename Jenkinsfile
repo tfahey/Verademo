@@ -31,6 +31,7 @@ pipeline {
             sh (script: """
                cd app
                pwd
+               env
                curl -sSL https://download.sourceclear.com/ci.sh | sh
                cd ..
                pwd
