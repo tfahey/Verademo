@@ -41,7 +41,7 @@ pipeline {
    }
    post {
       always {
-         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+         archiveArtifacts artifacts: 'app/target/*.war', followSymlinks: false
       }
    }
 }
