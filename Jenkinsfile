@@ -11,9 +11,7 @@ pipeline {
          steps {
             echo "package"
             sh (script: """
-                cd app
-                mvn package
-                cd ..
+                mvn -f app/pom.xml clean package
                 pwd
             """)  
             }
@@ -22,9 +20,7 @@ pipeline {
          steps {
             echo "srcclr scan"
             sh (script: """
-               cd app
-               mvn srcclr-maven-plugin:scan
-               cd ..
+               mvn -f app/pom.xml com.srcclr:srcclr-maven-plugin:scan
                pwd
             """)
          }
