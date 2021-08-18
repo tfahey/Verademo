@@ -21,7 +21,7 @@ pipeline {
       stage('Maven SCA Plugin') {
          steps {
             echo "srcclr scan"
-            sh (script """
+            sh (script: """
                cd app
                mvn srcclr-maven-plugin:scan
                cd ..
