@@ -16,29 +16,21 @@ pipeline {
             """)  
             }
       }
-      // stage('Maven SCA Plugin') {
-      //    steps {
-      //       echo "srcclr scan"
-      //       sh (script: """
-      //          mvn -f app/pom.xml com.srcclr:srcclr-maven-plugin:scan
-      //          pwd
-      //       """)
-      //    }
-      // }
       stage('Native SCA script') {
          steps {
+            withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
             echo "srcclr scan"
-            sh (script: """
-               cd app
-               pwd
-               env
-               curl -sSL https://download.sourceclear.com/ci.sh | sh
-               cd ..
-               pwd
-            """)
+               sh (script: """
+                  cd app
+                  pwd
+                  curl -sSL https://download.sourceclear.com/ci.sh | sh
+                  cd ..
+                  pwd
+               """)
+            }
          }
       }
-      stage('Veracode Pipeline Scan') {
+      stage('Veracode Upload and Scan') {
           steps {
               withCredentials([usernamePassword(credentialsId: 'veracode-credentials', passwordVariable: '$veracode_key', usernameVariable: '$veracode_id')]) {
                   // fire-and-forget
@@ -46,22 +38,10 @@ pipeline {
               }
           }
       }
-    //   stage('Veracode Pipeline Scan') {
-    //       steps {
-    //         sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-    //         sh 'unzip pipeline-scan-LATEST.zip pipeline-scan.jar'
-    //         sh 'java -jar pipeline-scan.jar \
-    //             --veracode_api_id "${VERACODE_API_ID}" \
-    //             --veracode_api_key "${VERACODE_API_SECRET}" \
-    //             --file "build/libs/sample.jar" \
-    //             --fail_on_severity="Very High, High" \
-    //             --fail_on_cwe="80" \
-    //             --baseline_file "${CI_BASELINE_PATH}" \
-    //             --timeout "${CI_TIMEOUT}" \
-    //             --project_name "${env.JOB_NAME}" \
-    //             --project_url "${env.GIT_URL}" \
-    //             --project_ref "${env.GIT_COMMIT}"'
-    //         }
-    //   }
+   }
+   post {
+      always {
+         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+      }
    }
 }
