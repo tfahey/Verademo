@@ -63,7 +63,7 @@ pipeline {
                        }
                      }    
                } 
-            echo "Pipeline scan done (failures ignored, results avialable in ${WORKSPACE}/results.json)"
+            echo "Pipeline scan done (failures ignored, results available in ${WORKSPACE}/results.json)"
          }
       }
       stage('Veracode Upload and Scan') {
