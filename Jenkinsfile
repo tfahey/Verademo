@@ -45,8 +45,8 @@ pipeline {
                         if(isUnix() == true) {
                            sh """
                               curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
-                              unzip -u pipeline-scan.zip veracode_scanner/pipeline-scan.jar
-                              java -jar veracode_scanner/pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
+                              unzip -u pipeline-scan.zip pipeline-scan.jar
+                              java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
                            """
                         }
                         else {
