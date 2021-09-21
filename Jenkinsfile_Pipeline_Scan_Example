@@ -34,6 +34,15 @@ pipeline {
                               unzip -u pipeline-scan.zip pipeline-scan.jar
                               java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
                            """
+                           if (rc != 0) 
+                             { 
+                                 sh "echo 'exit code is NOT zero'"
+                                 echo 'exit code is ' + rc
+                           } 
+                           else 
+                              {
+                                 sh "echo 'exit code is zero'"
+                           }
                         }
                         else {
                            powershell """
