@@ -16,20 +16,6 @@ pipeline {
             """)  
             }
       }
-      stage('Native SCA script') {
-         steps {
-            withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
-            echo "srcclr scan"
-               sh (script: """
-                  cd app
-                  pwd
-                  curl -sSL https://download.sourceclear.com/ci.sh | sh
-                  cd ..
-                  pwd
-               """)
-            }
-         }
-      }
       stage ('Veracode pipeline scan') {
          steps {
             echo 'Veracode Pipeline scanning'
