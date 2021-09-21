@@ -1,0 +1,50 @@
+pipeline {
+   agent any
+
+   stages {
+      stage('Verify Branch') {
+         steps {
+            echo "$GIT_BRANCH"
+         }
+      }
+      stage('Package') {
+         steps {
+            echo "package"
+            sh (script: """
+                mvn -f app/pom.xml clean package
+                pwd
+            """)  
+            }
+      }
+      stage ('Veracode pipeline scan') {
+         steps {
+            echo 'Veracode Pipeline scanning'
+            withCredentials([ usernamePassword ( 
+               credentialsId: 'veracode_login', usernameVariable: 'VERACODE_API_ID', passwordVariable: 'VERACODE_API_KEY') ]) {
+                  script {
+                           def rc = sh script: """
+                              curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
+                              unzip -u pipeline-scan.zip pipeline-scan.jar
+                              java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
+                           """, returnStatus: true
+                           if (rc != 0) 
+                             { 
+                                 sh "echo 'exit code is NOT zero'"
+                                 echo 'exit code is ' + rc
+                           } 
+                           else 
+                              {
+                                 sh "echo 'exit code is zero'"
+                           }
+                  }
+               } 
+            echo "Pipeline scan done (failures ignored, results available in ${WORKSPACE}/results.json)"
+         }
+      }
+   }
+   post {
+      always {
+         archiveArtifacts artifacts: 'app/target/*.war, results.json', followSymlinks: false
+      }
+   }
+}
