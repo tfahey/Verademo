@@ -33,7 +33,7 @@ pipeline {
                               curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
                               unzip -u pipeline-scan.zip pipeline-scan.jar
                               java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
-                           """
+                           """, returnStatus: true
                            if (rc != 0) 
                              { 
                                  sh "echo 'exit code is NOT zero'"
@@ -54,7 +54,6 @@ pipeline {
                            """
                         }
                      } catch (err) {
-                        echo 'Script exit code is ' + rc
                         echo 'Pipeline err: ' + err
                         echo 'The exception is ' + err.toString()
                         echo 'The cause is ' + err.getCause()
