@@ -54,6 +54,7 @@ pipeline {
                            """
                         }
                      } catch (err) {
+                        echo 'Script exit code is ' + rc
                         echo 'Pipeline err: ' + err
                         echo 'The exception is ' + err.toString()
                         echo 'The cause is ' + err.getCause()
