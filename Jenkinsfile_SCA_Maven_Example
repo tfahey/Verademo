@@ -1,0 +1,32 @@
+pipeline {
+   agent any
+
+   stages {
+      stage('Verify Branch') {
+         steps {
+            echo "$GIT_BRANCH"
+         }
+      }
+      stage('Checkout') {
+          steps {
+              checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tfahey/Verademo.git']]])
+          }
+      }
+      stage('Package and Verify using SCA scan') {
+         steps {
+            withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
+                echo "package"
+                sh (script: """
+                    mvn -f app/pom.xml clean package verify
+                    pwd
+                """)
+            }
+         }
+      }
+   }
+   post {
+      always {
+         archiveArtifacts artifacts: 'app/target/*.war, results.json', followSymlinks: false
+      }
+   }
+}
