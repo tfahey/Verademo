@@ -28,22 +28,11 @@ pipeline {
                      // flaws in the Jenkins log
                      // issue_details true: add flaw details to the results.json file
                      try {
-                        if(isUnix() == true) {
                            sh """
                               curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
                               unzip -u pipeline-scan.zip pipeline-scan.jar
                               java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
                            """
-                        }
-                        else {
-                           powershell """
-                              curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
-                              Expand-Archive -Path pipeline-scan.zip -DestinationPath veracode_scanner
-                              java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' \
-                                 --veracode_api_key '${VERACODE_API_KEY}' \
-                                 --file target/verademo.war --issue_details true
-                           """
-                        }
                      } catch (err) {
                         echo 'The error code is ' + err.getMessage().substring(26)
                        }
