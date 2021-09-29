@@ -11,7 +11,7 @@ pipeline {
          steps {
             echo "package"
             sh (script: """
-                mvn -f app/pom.xml clean package
+                mvn -f app/pom.xml package
                 pwd
             """)  
             }
@@ -31,7 +31,7 @@ pipeline {
                            sh """
                               curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
                               unzip -u pipeline-scan.zip pipeline-scan.jar
-                              java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --issue_details true
+                              java -jar pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' --veracode_api_key '${VERACODE_API_KEY}' --file app/target/verademo.war --baseline results.json --issue_details true
                            """
                      } catch (err) {
                         echo 'The error code is ' + err.getMessage().substring(26)
