@@ -32,10 +32,14 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file app/pom.xml
 
+      - name: List files in the repository
+        run: |
+          ls -al ${{ github.workspace }}
+
       - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
         with:
           name: CodePackage
-          path: 'target/*.war' # Wildcards can be used to filter the files copied into the container. See: https://github.com/actions/upload-artifact
+          path: '**/*.war' # Wildcards can be used to filter the files copied into the container. See: https://github.com/actions/upload-artifact
 
       - uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
         with:
