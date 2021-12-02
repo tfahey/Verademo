@@ -35,7 +35,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls -al ${{ github.workspace }}
-          ls **/*.war
 
       - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
         with:
@@ -45,7 +44,7 @@ jobs:
       - uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
         with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
-          filepath: target/verademo.war
+          filepath: app/target/verademo.war
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
           scantimeout: 15
