@@ -35,7 +35,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls -al ${{ github.workspace }}
-          ls -al **/*.war
+          ls **/*.war
 
       - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
         with:
