@@ -39,7 +39,7 @@ jobs:
         with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
           filepath: '**/*.war'
-          vid: '${{ secrets.VERACODE_API_ID }}'
-          vkey: '${{ secrets.VERACODE_API_KEY }}'
+          vid: '${{ env.VERACODE_API_ID }}'
+          vkey: '${{ env.VERACODE_API_KEY }}'
           scantimeout: 15
           createprofile: false
