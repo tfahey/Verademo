@@ -47,5 +47,5 @@ jobs:
           filepath: app/target/verademo.war
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
-          scantimeout: 15
-          createprofile: true
+          scantimeout: 20
+          createprofile: false
