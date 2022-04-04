@@ -18,8 +18,9 @@ pipeline {
                 echo "package"
                 sh (script: """
                     export SRCCLR_SCM_URI='https://example.com/12345-Verademo'
-                    export SRCCLR_SCM_REF='branch'
-                    export SRCCLR_SCM_REV='2022.4.4.1'
+                    export SRCCLR_SCM_REF_TYPE=branch
+                    export SRCCLR_SCM_REF=master
+                    export SRCCLR_SCM_REV=2022.4.4.1
                     env
                     mvn -f app/pom.xml clean package verify
                     pwd
