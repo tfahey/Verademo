@@ -12,11 +12,12 @@ pipeline {
               checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tfahey/Verademo.git']]])
           }
       }
-      stage('Package and Verify using SCA scan') {
+      stage('Package and Verify using SCA Maven plugin') {
          steps {
             withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
                 echo "package"
                 sh (script: """
+                    export SRCCLR_SCM_URI='https://example.com/12345-Verademo'
                     mvn -f app/pom.xml clean package verify
                     pwd
                 """)
