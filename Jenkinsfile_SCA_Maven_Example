@@ -18,6 +18,7 @@ pipeline {
                 echo "package"
                 sh (script: """
                     export SRCCLR_SCM_URI='https://example.com/12345-Verademo'
+                    env
                     mvn -f app/pom.xml clean package verify
                     pwd
                 """)
