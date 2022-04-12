@@ -23,7 +23,7 @@ pipeline {
             echo "SCA scan"
                sh (script: """
                   cd app
-                  curl -sSL https://download.sourceclear.com/ci.sh | sh -s -- scan --allow-dirty --update-advisor --recursive --scm-uri https://54321-ScaProject --scm-rev 1.0 --scm-ref master --scm-ref-type branch
+                  curl -sSL https://download.sourceclear.com/ci.sh | sh -s -- scan --allow-dirty --update-advisor --recursive --scm-uri https://example.com/54321-ScaProject --scm-rev 1.0 --scm-ref master --scm-ref-type branch
                   cd ..
                """)
             }
