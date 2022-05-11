@@ -43,4 +43,5 @@ jobs:
 
       - name: Run SCA Maven plugin
         run: |
+          export SRCCLR_API_TOKEN='${{ secrets.SRCCLR_API_TOKEN }}'
           mvn -B verify --file app/pom.xml
