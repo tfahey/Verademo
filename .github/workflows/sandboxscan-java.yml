@@ -49,5 +49,4 @@ jobs:
           vkey: '${{ secrets.VERACODE_API_KEY }}'
           sandboxname: Github
           createsandbox: true
-          scantimeout: 60
           createprofile: false
