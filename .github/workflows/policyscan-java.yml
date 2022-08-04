@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Veracode Policy Upload & Scan
 
 # Controls when the workflow will run
 on:
@@ -47,5 +47,4 @@ jobs:
           filepath: app/target/verademo.war
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
-          scantimeout: 60
           createprofile: false
