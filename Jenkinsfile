@@ -20,7 +20,7 @@ pipeline {
           steps {
               withCredentials([usernamePassword(credentialsId: 'veracode-credentials', passwordVariable: '$veracode_key', usernameVariable: '$veracode_id')]) {
                   // fire-and-forget
-                  veracode applicationName: 'Verademo', canFailJob: true, createSandbox: true, criticality: 'Medium', debug: true, waitForScan: true, fileNamePattern: '', replacementPattern: '', sandboxName: 'Jenkins Pipeline', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}", teams: '', uploadExcludesPattern: '', uploadIncludesPattern: '**/**.war', vid: "${$veracode_id}", vkey: "${$veracode_key}"
+                  veracode applicationName: 'Verademo', canFailJob: true, createSandbox: true, criticality: 'Medium', debug: true, waitForScan: true, timeout: 10, fileNamePattern: '', replacementPattern: '', sandboxName: 'Jenkins Pipeline', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}", teams: '', uploadExcludesPattern: '', uploadIncludesPattern: '**/**.war', vid: "${$veracode_id}", vkey: "${$veracode_key}"
               }
           }
       }
