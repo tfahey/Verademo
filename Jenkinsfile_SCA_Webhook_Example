@@ -1,0 +1,38 @@
+pipeline {
+   agent any
+
+   stages {
+      stage('Verify Branch') {
+         steps {
+            echo "$GIT_BRANCH"
+         }
+      }
+      stage('Package') {
+         steps {
+            echo "package"
+            sh (script: """
+                pwd
+                mvn -f app/pom.xml clean package
+                pwd
+            """)  
+            }
+      }
+      stage('SCA scan') {
+         steps {
+            withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
+            echo "SCA scan"
+               sh (script: """
+                  cd app
+                  curl -sSL https://download.sourceclear.com/ci.sh | sh -s -- scan --allow-dirty --update-advisor --recursive --scm-uri https://example.com/WebHook-Project --scm-rev 1.0 --scm-ref master --scm-ref-type branch
+                  cd ..
+               """)
+            }
+         }
+      }
+   }
+   post {
+      always {
+         archiveArtifacts artifacts: 'app/target/*.war', followSymlinks: false
+      }
+   }
+}
