@@ -44,6 +44,7 @@ jobs:
     #  Submit  project to pipeline scan
       - name: Run SCA Curl Script
         run: |
+          export SRCCLR_API_TOKEN='${{ secrets.SRCCLR_API_TOKEN }}'
           cd ${{ github.workspace }}/app
           curl -sSL https://download.sourceclear.com/ci.sh | sh
         continue-on-error: true
