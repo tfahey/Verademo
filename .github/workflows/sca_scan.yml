@@ -44,6 +44,6 @@ jobs:
     #  Submit  project to pipeline scan
       - name: Run SCA Curl Script
         run: |
-          cd /github/home/app
+          cd ${{ github.workspace }}/app
           curl -sSL https://download.sourceclear.com/ci.sh | sh
         continue-on-error: true
