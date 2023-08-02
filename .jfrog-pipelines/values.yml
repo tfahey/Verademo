@@ -1,0 +1,4 @@
+gitProvider: myGithub
+artifactory: myArtifactory
+repoPath: tfahey/Verademo
+deployerRepo: quickstarts-maven-local
