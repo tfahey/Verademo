@@ -41,18 +41,18 @@ pipelines:
               fi
             - echo '[INFO] ------------------------------------------------------------------------'
             - echo '[INFO] VERACODE UPLOAD AND SCAN'
-        onExecute:
-          - >-
-            echo "onExecute is the main section where you would issue your build/test commands"
-        onSuccess:
-          - >-
-            echo "onSuccess executes if the onStart or onExecute sections completed without errors"
-            #cd ./verademo/app
-        onFailure:
-          - >-
-            echo "onFailure executes if either onStart or onExecute end in failure or error."
-        onComplete:
-          - echo "onComplete executes after onSuccess or onFailure"
+          onExecute:
+            - >-
+              echo "onExecute is the main section where you would issue your build/test commands"
+          onSuccess:
+            - >-
+              echo "onSuccess executes if the onStart or onExecute sections completed without errors"
+              #cd ./verademo/app
+          onFailure:
+            - >-
+              echo "onFailure executes if either onStart or onExecute end in failure or error."
+          onComplete:
+            - echo "onComplete executes after onSuccess or onFailure"
 
       - name: publish_from_bash
         type: PublishBuildInfo
