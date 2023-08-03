@@ -25,7 +25,7 @@ pipelines:
         type: Bash
         configuration:
           outputResources:
-            - name: Verademo.war
+            - name: maven-metadata.xml
         execution:
           onStart:
             - echo "onStart can be used to do some setup or initialization of your dependencies to prepare for the execution."
@@ -49,6 +49,7 @@ pipelines:
           onExecute:
             - >-
               echo "onExecute is the main section where you would issue your build/test commands"
+              jfrog rt curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/maven-metadata.xml 
           onSuccess:
             - >-
               echo "onSuccess executes if the onStart or onExecute sections completed without errors"
