@@ -31,6 +31,7 @@ pipelines:
             - name: cron_trigger_mvn
           integrations:
             - name: {{ .Values.artifactory }}
+          sourceLocation: "app/"
 
       - name: publish_build
         type: PublishBuildInfo
