@@ -23,6 +23,9 @@ pipelines:
     steps:
       - name: bash_connands
         type: Bash
+        configuration:
+          outputResources:
+            - name: Verademo.war
         execution:
           onStart:
             - echo "onStart can be used to do some setup or initialization of your dependencies to prepare for the execution."
@@ -41,6 +44,8 @@ pipelines:
               fi
             - echo '[INFO] ------------------------------------------------------------------------'
             - echo '[INFO] VERACODE UPLOAD AND SCAN'
+            - pwd
+            - ls -al
           onExecute:
             - >-
               echo "onExecute is the main section where you would issue your build/test commands"
