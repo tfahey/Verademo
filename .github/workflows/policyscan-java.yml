@@ -44,7 +44,7 @@ jobs:
       - uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
         with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
-          filepath: app/target
+          filepath: app/target/verademo.war
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
           createprofile: false
