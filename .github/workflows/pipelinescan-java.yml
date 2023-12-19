@@ -86,5 +86,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: SarifResults
-        path: /github/home/app/target/veracode-results.sarif
+        path: /home/runner/work/Verademo/Verademo/veracode-results.sarif
 
