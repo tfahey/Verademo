@@ -48,7 +48,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         path: ${{ github.workspace }}/app
-        quick: true
+      #  quick: true
       #  create-issues: true
         debug: true
 
