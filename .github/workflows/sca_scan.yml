@@ -44,9 +44,14 @@ jobs:
     #  Submit  project to pipeline scan
       - name: Run SCA Curl Script
         run: |
+          export SRCCLR_PR_ON=methods
+          export SRCCLR_NO_BREAKING_UPDATES=true
+          export SRCCLR_IGNORE_CLOSED_PRS=false
+          EXTRA_ARGS='--update-advisor --pull-request'
           export SRCCLR_SCM_TYPE="GITHUB"
           export SRCCLR_API_TOKEN='${{ secrets.SRCCLR_API_TOKEN }}'
           export SRCCLR_SCM_TOKEN='${{ secrets.VERACODE_GITHUB_TOKEN }}'
+          git remote -v
           cd ${{ github.workspace }}/app
-          curl -sSL https://download.sourceclear.com/ci.sh | sh -s -- scan --update-advisor --debug
+          curl -sSL https://download.sourceclear.com/ci.sh | sh -s -- scan $EXTRA_ARGS --debug
         continue-on-error: true
