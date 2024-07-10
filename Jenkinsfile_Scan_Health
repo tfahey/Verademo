@@ -1,0 +1,58 @@
+pipeline {
+   agent any
+
+   stages {
+       stage('Run Git') {
+           steps {
+               git 'https://github.com/tfahey/Verademo.git/'
+           }
+       }
+      //stage('Verify Branch') {
+      //   steps {
+      //      echo "$GIT_BRANCH"
+      //   }
+      //}
+      stage('Package') {
+         steps {
+            echo "package"
+            sh (script: """
+                mvn -f app/pom.xml clean package
+                pwd
+            """)  
+            }
+      }
+      //stage('Veracode Upload and Scan') {
+        //  steps {
+        //      withCredentials([usernamePassword(credentialsId: 'veracode-credentials', passwordVariable: '$veracode_key', usernameVariable: '$veracode_id')]) {
+        //          // fire-and-forget
+        //          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        //              veracode applicationName: 'Verademo', canFailJob: true, criticality: 'Medium', debug: true, waitForScan: false, timeout: 10, fileNamePattern: '', replacementPattern: '', scanExcludesPattern: '', scanIncludesPattern: '**/**.war', scanName: "${BUILD_TAG}", teams: '', uploadExcludesPattern: '', uploadIncludesPattern: '**/**.war', vid: "${$veracode_id}", vkey: "${$veracode_key}"
+        //          }
+        //      }
+        //  }
+      //}
+        stage('Veracode Get Build Info') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'veracode-credentials', passwordVariable: 'veracode_key', usernameVariable: 'veracode_id')]) {
+                    // Download and unzip the API Wrapper Jar
+                    sh (script: '''
+                        curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/maven-metadata.xml -o wrapper-versions.xml
+                        version=$(xmllint --xpath "//metadata/versioning/latest/text()" wrapper-versions.xml)
+                        curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/$version/vosp-api-wrappers-java-$version-dist.zip -o veracode-api-wrapper.zip
+                        unzip -o veracode-api-wrapper.zip VeracodeJavaAPI.jar
+                        pwd
+                        ls -al
+                        java -jar VeracodeJavaAPI.jar -vid $veracode_id -vkey $veracode_key -action getbuildinfo -appid 1203679 > buildinfo.xml
+                        build_id=`xmllint --xpath "string(//*[local-name()=\'build\']/@build_id)" buildinfo.xml`
+                        echo "build id is " $build_id
+                    ''')
+                }
+            }
+        }
+    }
+   post {
+      always {
+         archiveArtifacts artifacts: 'app/target/*.war, results.json', followSymlinks: false
+        }
+    }
+}
