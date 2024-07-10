@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_tfahey_Verademo_1703789826056-pr-trigger-input-set
+  identifier: Build_tfahey_Verademo_1703789826056prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: Verademo
+  pipeline:
+    identifier: Build_tfahey_Verademo_1703789826056
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>

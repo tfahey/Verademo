@@ -82,3 +82,9 @@ jobs:
       with:
     # Path to SARIF file relative to the root of the repository
         sarif_file: veracode-results.sarif
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: SarifResults
+        path: /home/runner/work/Verademo/Verademo/veracode-results.sarif
+

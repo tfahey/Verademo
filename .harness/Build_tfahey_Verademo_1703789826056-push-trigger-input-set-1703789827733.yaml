@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_tfahey_Verademo_1703789826056-push-trigger-input-set
+  identifier: Build_tfahey_Verademo_1703789826056pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: Verademo
+  pipeline:
+    identifier: Build_tfahey_Verademo_1703789826056
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>

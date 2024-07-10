@@ -1,0 +1,57 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow will initiate a Veracode Static Analysis Pipeline scan, return a results.json and convert to SARIF for upload as a code scanning alert
+
+name: Veracode SCA Pipeline Scan
+
+on:
+   push:
+     branches: [ "master" ]
+   pull_request:
+     # The branches below must be a subset of the branches above
+     branches: [ "master" ]
+   # Allows you to run this workflow manually from the Actions tab
+   workflow_dispatch:
+# schedule:
+#   - cron: '30 20 * * 6'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: read
+
+jobs:
+  # This workflow contains a job to build and submit pipeline scan, you will need to customize the build process accordingly and make sure the artifact you build is used as the file input to the pipeline scan file parameter
+  build-and-pipeline-scan:
+    # The type of runner that the job will run on
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-latest
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
+      
+
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it and copies all sources into ZIP file for submitting for analysis. Replace this section with your applications build steps
+    - uses: actions/checkout@v3
+    # with:
+    #   repository: ''
+
+    - name: Run Veracode SCA
+      env:
+        SRCCLR_API_TOKEN: ${{ secrets.VERACODE_APP_SRCCLR_API_TOKEN }}
+      uses: veracode/veracode-sca@v2.1.10
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        path: app
+        quick: true
+        create-issues: true
+        debug: true
+
+    - name: Debug Filesystem
+      run: |
+        ls -lah  
