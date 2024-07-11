@@ -42,7 +42,7 @@ pipeline {
                         unzip -o veracode-api-wrapper.zip VeracodeJavaAPI.jar
                         echo "download the scan_health executable"
                         curl -LOv https://github.com/veracode/scan_health/releases/download/2.44/scan_health-linux-amd64
-                        exho "set the scan_health file to be executable"
+                        echo "set the scan_health file to be executable"
                         chmod 755 scan_health-linux-amd64
                         pwd
                         ls -al
