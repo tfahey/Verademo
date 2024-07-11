@@ -40,11 +40,21 @@ pipeline {
                         version=$(xmllint --xpath "//metadata/versioning/latest/text()" wrapper-versions.xml)
                         curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/$version/vosp-api-wrappers-java-$version-dist.zip -o veracode-api-wrapper.zip
                         unzip -o veracode-api-wrapper.zip VeracodeJavaAPI.jar
+                        echo "download the scan_health executable"
+                        curl -LOv https://github.com/veracode/scan_health/releases/download/2.44/scan_health-linux-amd64
+                        exho "set the scan_health file to be executable"
+                        chmod 755 scan_health-linux-amd64
                         pwd
                         ls -al
-                        java -jar VeracodeJavaAPI.jar -vid $veracode_id -vkey $veracode_key -action getbuildinfo -appid 1203679 > buildinfo.xml
+                        echo "Get the list of applications accessible to this API ID"
+                        java -jar VeracodeJavaAPI.jar -vid $veracode_id -vkey $veracode_key -action getapplist > applist.xml
+                        echo "Use xmllint to get the app_id of the application named Verademo"
+                        app_id=`xmllint --xpath "string(//*[local-name()='app'][@app_name=\'Verademo\']/@app_id)" applist.xml`
+                        echo "Get the build_id of the latest scan for application"
+                        java -jar VeracodeJavaAPI.jar -vid $veracode_id -vkey $veracode_key -action getbuildinfo -appid $app_id > buildinfo.xml
                         build_id=`xmllint --xpath "string(//*[local-name()=\'build\']/@build_id)" buildinfo.xml`
                         echo "build id is " $build_id
+                        ./scan_health-linux-amd64 -vid $veracode_id -vkey $veracode_key -sast $build_id
                     ''')
                 }
             }
