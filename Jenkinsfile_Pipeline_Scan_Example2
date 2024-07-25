@@ -18,9 +18,7 @@ pipeline {
       }
       stage ('Veracode pipeline scan') {
          steps {
-            echo 'Veracode Pipeline scanning'
-            withCredentials([ usernamePassword ( 
-               credentialsId: 'veracode_login', usernameVariable: 'VERACODE_API_ID', passwordVariable: 'VERACODE_API_KEY') ]) {
+            withCredentials([usernamePassword(credentialsId: 'veracode_login', usernameVariable: '$VERACODE_API_ID', passwordVariable: '$VERACODE_API_KEY')]) {
                   script {
                            def rc = sh script: """
                               curl https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
