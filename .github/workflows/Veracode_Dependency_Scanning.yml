@@ -43,7 +43,8 @@ jobs:
     - name: Debug Filesystem
       run: |
         pwd
-        ls -lah  
+        ls -lah
+        touch scaResults.json
 
     - name: Run Veracode SCA
       env:
