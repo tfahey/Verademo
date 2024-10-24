@@ -43,8 +43,8 @@ jobs:
     - name: Debug Filesystem
       run: |
         pwd
-        ls -lah
         touch scaResults.json
+        ls -lah
 
     - name: Run Veracode SCA
       env:
@@ -54,5 +54,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         path: ./app
         quick: true
-        create-issues: true
+        create-issues: false
         debug: true
