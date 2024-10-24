@@ -40,6 +40,10 @@ jobs:
     - uses: actions/checkout@v4
     # with:
     #   repository: ''
+    - name: Debug Filesystem
+      run: |
+        pwd
+        ls -lah  
 
     - name: Run Veracode SCA
       env:
@@ -47,11 +51,7 @@ jobs:
       uses: veracode/veracode-sca@v2.1.11
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        path: app
+        path: ./app
         quick: true
         create-issues: true
         debug: true
-
-    - name: Debug Filesystem
-      run: |
-        ls -lah  
