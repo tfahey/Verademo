@@ -53,6 +53,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         path: ./app
-        quick: true
         create-issues: false
         debug: true
