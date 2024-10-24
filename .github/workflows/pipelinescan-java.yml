@@ -18,11 +18,12 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
         
   # build the application
-    - uses: actions/setup-java@v1 # Make java accessible on path so the uploadandscan action can run.
-      with: 
+    - uses: actions/setup-java@v4 # Make java accessible on path so the uploadandscan action can run.
+      with:
+        distribution: 'temurin'
         java-version: '8'
 
     - name: Build with Maven
@@ -30,7 +31,7 @@ jobs:
 
       
     - name: Archive package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: CodePackage
         path: '**/*.war'
@@ -44,7 +45,7 @@ jobs:
 
     steps:
     - name: Retrieve artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: CodePackage
         path: /github/home
@@ -56,7 +57,7 @@ jobs:
         java -jar /opt/veracode/pipeline-scan.jar --veracode_api_id="${{secrets.VERACODE_API_ID}}" --veracode_api_key="${{secrets.VERACODE_API_KEY}}" --fail_on_severity="Very High, High" --file="verademo.war" --app_id="${{secrets.VERACODE_APP_ID}}" --json_output_file="results.json"
       continue-on-error: true
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ScanResults
         path: /github/home/app/target/results.json
@@ -68,7 +69,7 @@ jobs:
     steps:
 
     - name: Retrieve results
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: ScanResults
 
@@ -78,12 +79,12 @@ jobs:
         pipeline-results-json: results.json
         output-results-sarif: veracode-results.sarif
         finding-rule-level: "4:3:0"
-    - uses: github/codeql-action/upload-sarif@v2
+    - uses: github/codeql-action/upload-sarif@v3
       with:
     # Path to SARIF file relative to the root of the repository
         sarif_file: veracode-results.sarif
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: SarifResults
         path: /home/runner/work/Verademo/Verademo/veracode-results.sarif
