@@ -37,14 +37,14 @@ jobs:
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it and copies all sources into ZIP file for submitting for analysis. Replace this section with your applications build steps
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     # with:
     #   repository: ''
 
     - name: Run Veracode SCA
       env:
         SRCCLR_API_TOKEN: ${{ secrets.VERACODE_APP_SRCCLR_API_TOKEN }}
-      uses: veracode/veracode-sca@v2.1.10
+      uses: veracode/veracode-sca@v2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         path: app
