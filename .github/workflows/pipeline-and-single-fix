@@ -1,6 +1,6 @@
 # This workflow will initiate a Veracode Static Analysis Pipeline scan, return a results.json and convert to SARIF for upload as a code scanning alert
 
-name: Veracode Static Analysis Pipeline Scan
+name: Veracode Static Analysis Pipeline Scan and Single Fix
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
